@@ -6,7 +6,8 @@
 window.MOMENT_GARDEN_CONFIG = {
   APP_NAME: "Moment Garden",
   TEAM_NAME: "Mali's team",
-  INVITE_CODE: "MALI-TON",
+  // Invite code is currently disabled. Keep this only if you want to re-enable it later.
+  INVITE_CODE: "",
   ADMIN_CODE: "GARDEN-ADMIN",
   SUPABASE_URL: "",
   SUPABASE_ANON_KEY: "",

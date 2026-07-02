@@ -145,11 +145,13 @@ function boot() {
   applyConfig();
   bindEvents();
 
-  if (localStorage.getItem(SESSION_KEY) === "ok") {
-    showApp();
-  } else {
-    els.inviteCode.focus();
+  // v0.1.1: Open the garden immediately.
+  // The invite-code gate was removed for small private-team usage.
+  localStorage.setItem(SESSION_KEY, "ok");
+  if (!localStorage.getItem(USER_KEY)) {
+    localStorage.setItem(USER_KEY, makeId());
   }
+  showApp();
 }
 
 function applyConfig() {

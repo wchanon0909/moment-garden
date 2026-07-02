@@ -13,22 +13,22 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="login-screen" id="loginScreen">
+    <div class="login-screen hidden" id="loginScreen">
       <div class="login-card glass-card">
         <div class="login-mascot">🌸</div>
         <h1>Moment Garden</h1>
         <p>สวนโมเมนต์ลับ ๆ ของทีมเล็ก ๆ</p>
         <label for="inviteCode">Invite code</label>
         <div class="login-row">
-          <input id="inviteCode" type="password" placeholder="ใส่รหัสเข้ากลุ่ม" autocomplete="off" />
+          <input id="inviteCode" type="text" placeholder="ไม่ต้องใช้แล้ว เปิดเว็บได้ทันที" autocomplete="off" />
           <button id="loginBtn">เข้าเว็บ</button>
         </div>
-        <small>ค่าเริ่มต้นใน config.js คือ <b>MALI-TON</b> เปลี่ยนได้ก่อนอัพ GitHub</small>
+        <small>เวอร์ชันนี้เปิดเข้าเว็บได้ทันที ไม่ต้องใช้ invite code</small>
         <p class="login-error" id="loginError"></p>
       </div>
     </div>
 
-    <div class="app-shell" id="appShell" aria-hidden="true">
+    <div class="app-shell" id="appShell">
       <header class="topbar">
         <div class="brand">
           <div class="brand-mark">✿</div>

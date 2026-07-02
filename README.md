@@ -95,3 +95,10 @@ moment-garden/
 ├─ supabase_schema.sql
 └─ README.md
 ```
+
+
+## v0.1.1 update
+
+- Removed the invite-code gate. The website opens immediately for small private-team usage.
+- Fixed the browser random ID bug in `app.js`.
+- Changed the old invite-code input type from password to text, in case the login screen is re-enabled later.
