@@ -44,13 +44,6 @@
           <button class="nav-tab" data-jump="relationshipSection">♡ ความสัมพันธ์</button>
           <button class="nav-tab" id="adminToggle">⚙️ ตั้งค่า</button>
         </nav>
-
-        <div class="heart-widget">
-          <span>Heart Meter</span>
-          <div class="heart-track"><div class="heart-fill" id="heartFill"></div></div>
-          <b id="heartPercent">0%</b>
-        </div>
-
         <div class="team-card">
           <div class="avatar">👩🏻‍💻</div>
           <div>
@@ -101,12 +94,14 @@
               <div class="character girl" id="girlCharacter" style="--x: 39%; --y: 65%;">
                 <div class="name-tag pink" id="girlNameTag">มะลิ</div>
                 <div class="emoji-face">👧🏻</div>
+                <div class="character-feet"></div>
                 <div class="shadow"></div>
               </div>
 
               <div class="character boy" id="boyCharacter" style="--x: 58%; --y: 60%;">
                 <div class="name-tag blue" id="boyNameTag">ต้น</div>
                 <div class="emoji-face">👦🏻</div>
+                <div class="character-feet"></div>
                 <div class="shadow"></div>
               </div>
             </div>
@@ -122,7 +117,14 @@
             </article>
 
             <article class="panel relationship" id="relationshipSection">
-              <h3>ความสัมพันธ์ของมะลิ & ต้น</h3>
+              <div class="relationship-head">
+                <h3>ความสัมพันธ์ของมะลิ & ต้น</h3>
+                <div class="relationship-meter">
+                  <span>Heart Meter</span>
+                  <div class="heart-track"><div class="heart-fill" id="heartFill"></div></div>
+                  <b id="heartPercent">0%</b>
+                </div>
+              </div>
               <div class="relation-stage">
                 <span class="tiny-character">👧🏻</span>
                 <div class="big-heart" id="bigHeart">0%</div>

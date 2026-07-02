@@ -348,6 +348,23 @@ function normalizeMoment(row) {
   };
 }
 
+const BUBBLE_SLOTS = [
+  { x: 22, y: 24, size: "medium" },
+  { x: 43, y: 20, size: "medium" },
+  { x: 72, y: 26, size: "medium" },
+  { x: 16, y: 58, size: "medium" },
+  { x: 40, y: 73, size: "small" },
+  { x: 74, y: 66, size: "large" }
+];
+
+function getBubbleSlot(index) {
+  return BUBBLE_SLOTS[index] || {
+    x: 20 + (index % 3) * 22,
+    y: 26 + Math.floor(index / 3) * 18,
+    size: index % 2 === 0 ? "medium" : "small"
+  };
+}
+
 function renderAll() {
   const approved = getApprovedMoments();
   if (!state.selectedMomentId && approved.length) state.selectedMomentId = approved[0].id;
@@ -373,12 +390,13 @@ function renderBubbles() {
   const approved = getApprovedMoments();
   els.bubbleLayer.innerHTML = "";
 
-  approved.slice(0, 8).forEach((moment, index) => {
+  approved.slice(0, 6).forEach((moment, index) => {
+    const slot = getBubbleSlot(index);
     const bubble = document.createElement("button");
-    bubble.className = `moment-bubble ${moment.type}`;
+    bubble.className = `moment-bubble ${moment.type} ${slot.size}`;
     bubble.dataset.id = moment.id;
-    bubble.style.left = `${moment.x || 25 + index * 8}%`;
-    bubble.style.top = `${moment.y || 25 + index * 6}%`;
+    bubble.style.left = `${slot.x}%`;
+    bubble.style.top = `${slot.y}%`;
     bubble.style.animationDelay = `${index * -0.45}s`;
 
     const total = totalReactions(moment);
@@ -676,18 +694,20 @@ function openAllMoments() {
 
 function moveCharactersForMoment(moment) {
   const positions = {
-    both: [{ x: 42, y: 63 }, { x: 56, y: 62 }],
-    girl: [{ x: 38, y: 58 }, { x: 64, y: 68 }],
-    boy: [{ x: 36, y: 68 }, { x: 62, y: 57 }]
+    both: [{ x: 39, y: 70 }, { x: 68, y: 65 }],
+    girl: [{ x: 37, y: 63 }, { x: 69, y: 72 }],
+    boy: [{ x: 35, y: 72 }, { x: 67, y: 61 }]
   };
   const [girl, boy] = positions[moment.target] || positions.both;
   setCharacterPosition(els.girlCharacter, girl.x, girl.y);
   setCharacterPosition(els.boyCharacter, boy.x, boy.y);
+  triggerCharacterAction(moment.target);
 }
 
 function moveCharactersRandomly() {
-  setCharacterPosition(els.girlCharacter, randomBetween(30, 50), randomBetween(54, 75));
-  setCharacterPosition(els.boyCharacter, randomBetween(50, 70), randomBetween(50, 74));
+  setCharacterPosition(els.girlCharacter, randomBetween(32, 44), randomBetween(64, 73));
+  setCharacterPosition(els.boyCharacter, randomBetween(58, 70), randomBetween(61, 71));
+  triggerCharacterAction("both");
 }
 
 function setCharacterPosition(el, x, y) {
@@ -695,6 +715,23 @@ function setCharacterPosition(el, x, y) {
   el.style.setProperty("--x", `${x}%`);
   el.style.setProperty("--y", `${y}%`);
   window.setTimeout(() => el.classList.remove("walking"), 1350);
+}
+
+function triggerCharacterAction(target) {
+  [els.girlCharacter, els.boyCharacter].forEach((el) => el.classList.remove("focus", "shy", "happy"));
+  if (target === "girl") {
+    els.girlCharacter.classList.add("focus", "happy");
+    els.boyCharacter.classList.add("shy");
+  } else if (target === "boy") {
+    els.boyCharacter.classList.add("focus", "happy");
+    els.girlCharacter.classList.add("shy");
+  } else {
+    els.girlCharacter.classList.add("happy");
+    els.boyCharacter.classList.add("happy");
+  }
+  window.setTimeout(() => {
+    [els.girlCharacter, els.boyCharacter].forEach((el) => el.classList.remove("focus", "shy", "happy"));
+  }, 2200);
 }
 
 function sprinkleHearts(count = 8) {
