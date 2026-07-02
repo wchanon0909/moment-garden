@@ -5,7 +5,7 @@ const USER_KEY = "moment-garden-user";
 
 function makeId() {
   if (globalThis.crypto && typeof globalThis.crypto.randomUUID === "function") {
-    return globalThis.makeId();
+    return globalThis.crypto.randomUUID();
   }
   return `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
