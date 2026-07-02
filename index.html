@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moment Garden</title>
+    <meta name="description" content="A private cute interactive story wall for small teams." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./config.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="login-screen" id="loginScreen">
+      <div class="login-card glass-card">
+        <div class="login-mascot">🌸</div>
+        <h1>Moment Garden</h1>
+        <p>สวนโมเมนต์ลับ ๆ ของทีมเล็ก ๆ</p>
+        <label for="inviteCode">Invite code</label>
+        <div class="login-row">
+          <input id="inviteCode" type="password" placeholder="ใส่รหัสเข้ากลุ่ม" autocomplete="off" />
+          <button id="loginBtn">เข้าเว็บ</button>
+        </div>
+        <small>ค่าเริ่มต้นใน config.js คือ <b>MALI-TON</b> เปลี่ยนได้ก่อนอัพ GitHub</small>
+        <p class="login-error" id="loginError"></p>
+      </div>
+    </div>
+
+    <div class="app-shell" id="appShell" aria-hidden="true">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">✿</div>
+          <div>
+            <h1 id="appName">Moment Garden</h1>
+            <p>our little story</p>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" aria-label="Main navigation">
+          <button class="nav-tab active" data-jump="sceneSection">🏠 หน้าหลัก</button>
+          <button class="nav-tab" data-jump="timelineSection">🗓️ ไทม์ไลน์</button>
+          <button class="nav-tab" data-jump="relationshipSection">♡ ความสัมพันธ์</button>
+          <button class="nav-tab" id="adminToggle">⚙️ ตั้งค่า</button>
+        </nav>
+
+        <div class="heart-widget">
+          <span>Heart Meter</span>
+          <div class="heart-track"><div class="heart-fill" id="heartFill"></div></div>
+          <b id="heartPercent">0%</b>
+        </div>
+
+        <div class="team-card">
+          <div class="avatar">👩🏻‍💻</div>
+          <div>
+            <strong id="teamName">Mali's team</strong>
+            <span>สมาชิก 12 คน</span>
+          </div>
+          <button class="tiny-btn" id="logoutBtn" title="ออกจากเว็บ">⌄</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="left-main">
+          <section class="scene-card" id="sceneSection">
+            <div class="scene-toolbar">
+              <div>
+                <h2>สวนโมเมนต์ของเรา</h2>
+                <p id="connectionStatus">โหมดทดลอง: ข้อมูลเก็บในเครื่องนี้</p>
+              </div>
+              <div class="scene-actions">
+                <button id="shuffleBtn">✨ ให้ตัวละครเดินเล่น</button>
+                <button id="clearLocalBtn" class="ghost danger">ล้างข้อมูล demo</button>
+              </div>
+            </div>
+
+            <div class="story-scene" id="storyScene">
+              <div class="sky-glow"></div>
+              <div class="window-view">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="string-light one"></div>
+              <div class="string-light two"></div>
+              <div class="shelf shelf-left">📚 🪴 🧸</div>
+              <div class="shelf shelf-right">☕ 📌 🧁</div>
+              <div class="sofa">🛋️</div>
+              <div class="coffee-bar">☕</div>
+              <div class="desk desk-left">💻 📒 🌷</div>
+              <div class="desk desk-right">🖥️ 🪴</div>
+              <div class="floor-path"></div>
+              <div class="sparkle-layer" id="sparkleLayer"></div>
+              <div class="bubble-layer" id="bubbleLayer"></div>
+
+              <div class="character girl" id="girlCharacter" style="--x: 39%; --y: 65%;">
+                <div class="name-tag pink" id="girlNameTag">มะลิ</div>
+                <div class="emoji-face">👧🏻</div>
+                <div class="shadow"></div>
+              </div>
+
+              <div class="character boy" id="boyCharacter" style="--x: 58%; --y: 60%;">
+                <div class="name-tag blue" id="boyNameTag">ต้น</div>
+                <div class="emoji-face">👦🏻</div>
+                <div class="shadow"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="dashboard-grid">
+            <article class="panel wide" id="timelineSection">
+              <div class="panel-head">
+                <h3>ไทม์ไลน์ความสัมพันธ์</h3>
+                <button class="link-btn" id="viewAllBtn">ดูทั้งหมด ›</button>
+              </div>
+              <div class="timeline" id="timeline"></div>
+            </article>
+
+            <article class="panel relationship" id="relationshipSection">
+              <h3>ความสัมพันธ์ของมะลิ & ต้น</h3>
+              <div class="relation-stage">
+                <span class="tiny-character">👧🏻</span>
+                <div class="big-heart" id="bigHeart">0%</div>
+                <span class="tiny-character">👦🏻</span>
+              </div>
+              <p id="unlockText">อีกนิดเดียวจะปลดล็อกซีนพิเศษ 💌</p>
+            </article>
+
+            <article class="panel mood-panel">
+              <h3>Mood วันนี้</h3>
+              <div class="mood-list">
+                <div class="mood-card">
+                  <span>👧🏻</span>
+                  <div>
+                    <strong id="girlMood">ใจฟู</strong>
+                    <p id="girlNote">มีความสุขจังเลยวันนี้ 😊</p>
+                  </div>
+                </div>
+                <div class="mood-card">
+                  <span>👦🏻</span>
+                  <div>
+                    <strong id="boyMood">เขินนิดๆ</strong>
+                    <p id="boyNote">ไม่รู้ทำไมเห็นหน้าแล้วใจเต้นแปลก ๆ 😳</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+        </section>
+
+        <aside class="right-panel">
+          <section class="detail-card glass-card" id="momentDetail">
+            <button class="close-btn" id="closeDetail" aria-label="close">×</button>
+            <h2>โมเมนต์ของเรา</h2>
+            <div class="detail-author">
+              <span class="mini-avatar">🌷</span>
+              <div>
+                <strong id="detailAuthor">เพื่อนในทีม</strong>
+                <p id="detailTime">เมื่อสักครู่</p>
+              </div>
+              <span class="pill" id="detailType">เขินๆ</span>
+            </div>
+            <p class="detail-text" id="detailText">เลือก bubble ในฉากเพื่ออ่านโมเมนต์แบบเต็ม ๆ</p>
+            <div class="reaction-row" id="reactionRow"></div>
+            <div class="liked-by" id="likedBy"></div>
+          </section>
+
+          <section class="form-card glass-card">
+            <h2>แชร์โมเมนต์ใหม่</h2>
+            <form id="momentForm">
+              <textarea id="momentText" maxlength="300" placeholder="เล่าโมเมนต์น่ารัก ๆ ของมะลิและต้น..." required></textarea>
+              <div class="counter"><span id="charCount">0</span>/300</div>
+
+              <div class="form-row">
+                <label>
+                  ประเภทโมเมนต์
+                  <select id="momentType">
+                    <option value="cute">น่ารัก</option>
+                    <option value="shy">เขิน</option>
+                    <option value="accident">บังเอิญ</option>
+                    <option value="help">ช่วยเหลือ</option>
+                    <option value="suspicious">น่าสงสัย</option>
+                    <option value="tease">แอบแซว</option>
+                  </select>
+                </label>
+                <label>
+                  เกี่ยวข้องกับ
+                  <select id="momentTarget">
+                    <option value="both">ทั้งคู่</option>
+                    <option value="girl">มะลิ</option>
+                    <option value="boy">ต้น</option>
+                  </select>
+                </label>
+              </div>
+
+              <label class="author-field">
+                ชื่อเล่นผู้แชร์
+                <input id="authorName" type="text" maxlength="30" placeholder="เช่น เพื่อนโต๊ะข้าง ๆ" />
+              </label>
+
+              <label class="check-row">
+                <input id="anonymous" type="checkbox" />
+                ไม่ระบุชื่อ (anonymous)
+              </label>
+
+              <button class="submit-btn" type="submit">ส่งโมเมนต์ 💌</button>
+            </form>
+          </section>
+
+          <section class="admin-card glass-card hidden" id="adminPanel">
+            <h2>Admin Garden</h2>
+            <p>ใช้สำหรับลบโมเมนต์ หรือ approve ถ้าเปิด moderation mode</p>
+            <div class="admin-login" id="adminLogin">
+              <input id="adminCode" type="password" placeholder="Admin code" />
+              <button id="adminLoginBtn">เข้า Admin</button>
+            </div>
+            <div class="admin-list hidden" id="adminList"></div>
+          </section>
+        </aside>
+      </main>
+
+      <div class="toast" id="toast"></div>
+      <div class="modal hidden" id="allMomentsModal">
+        <div class="modal-card glass-card">
+          <button class="close-btn" id="closeModal">×</button>
+          <h2>โมเมนต์ทั้งหมด</h2>
+          <div id="allMomentsList" class="all-moments-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
