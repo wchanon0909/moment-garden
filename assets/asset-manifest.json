@@ -1,0 +1,22 @@
+{
+  "version": "0.2-asset-ready",
+  "scene": {
+    "main": "./assets/scenes/cozy-office-placeholder.svg",
+    "recommendedSize": "1920x1080"
+  },
+  "characters": {
+    "mali": {
+      "idle": "./assets/characters/mali/idle.svg",
+      "happy": "./assets/characters/mali/happy.svg",
+      "shy": "./assets/characters/mali/shy.svg",
+      "walk": "./assets/characters/mali/walk.svg"
+    },
+    "ton": {
+      "idle": "./assets/characters/ton/idle.svg",
+      "happy": "./assets/characters/ton/happy.svg",
+      "shy": "./assets/characters/ton/shy.svg",
+      "walk": "./assets/characters/ton/walk.svg"
+    }
+  },
+  "props": {}
+}

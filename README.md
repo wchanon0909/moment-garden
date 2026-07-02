@@ -102,3 +102,24 @@ moment-garden/
 - Removed the invite-code gate. The website opens immediately for small private-team usage.
 - Fixed the browser random ID bug in `app.js`.
 - Changed the old invite-code input type from password to text, in case the login screen is re-enabled later.
+
+
+## v0.2 Asset-ready structure
+
+เพิ่มโครงสร้างสำหรับใช้ภาพ asset จริงแล้ว:
+
+- `assets/scenes/` สำหรับภาพฉากหลังหลัก
+- `assets/characters/mali/` สำหรับ pose ของมะลิ
+- `assets/characters/ton/` สำหรับ pose ของต้น
+- `assets/props/` สำหรับของตกแต่ง
+- `ASSET_GUIDE.md` สำหรับรายละเอียดขนาดไฟล์ / prompt / วิธีเปลี่ยนภาพ
+
+เว็บจะอ่าน asset จาก `config.js` ในส่วน `ASSET_MODE`, `ASSETS`, และ `SCENE`.
+ถ้าต้องการเปลี่ยนภาพฉาก ให้แทนที่ path นี้:
+
+`ASSETS.scene.background`
+
+ถ้าต้องการเปลี่ยนตัวละคร ให้แทนที่ path ใน:
+
+`ASSETS.characters.girl`
+`ASSETS.characters.boy`

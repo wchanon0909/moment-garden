@@ -129,7 +129,7 @@ function $(id) {
 
 function initElements() {
   [
-    "loginScreen", "appShell", "inviteCode", "loginBtn", "loginError", "appName", "teamName",
+    "loginScreen", "appShell", "inviteCode", "loginBtn", "loginError", "appName", "teamName", "storyScene", "girlSprite", "boySprite",
     "connectionStatus", "heartFill", "heartPercent", "bigHeart", "unlockText", "bubbleLayer",
     "sparkleLayer", "girlCharacter", "boyCharacter", "girlNameTag", "boyNameTag", "girlMood",
     "boyMood", "girlNote", "boyNote", "timeline", "momentDetail", "detailAuthor", "detailTime",
@@ -166,6 +166,34 @@ function applyConfig() {
   els.boyMood.textContent = boy.mood || "เขินนิดๆ";
   els.girlNote.textContent = girl.note || "มีความสุขจังเลยวันนี้ 😊";
   els.boyNote.textContent = boy.note || "ไม่รู้ทำไมเห็นหน้าแล้วใจเต้นแปลก ๆ 😳";
+  applyAssetConfig();
+}
+
+function applyAssetConfig() {
+  const sceneBackground = CONFIG.ASSETS?.scene?.background;
+  const assetMode = Boolean(CONFIG.ASSET_MODE && sceneBackground);
+
+  if (els.storyScene) {
+    els.storyScene.classList.toggle("asset-mode", assetMode);
+    if (assetMode) {
+      els.storyScene.style.setProperty("--scene-bg", `url("${sceneBackground}")`);
+    }
+  }
+
+  updateCharacterSprite("girl", "idle");
+  updateCharacterSprite("boy", "idle");
+}
+
+function getCharacterAsset(character, pose = "idle") {
+  const assets = CONFIG.ASSETS?.characters?.[character] || {};
+  return assets[pose] || assets.idle || "";
+}
+
+function updateCharacterSprite(character, pose = "idle") {
+  const img = character === "girl" ? els.girlSprite : els.boySprite;
+  const path = getCharacterAsset(character, pose);
+  if (!img || !path) return;
+  img.src = path;
 }
 
 function bindEvents() {
@@ -348,7 +376,7 @@ function normalizeMoment(row) {
   };
 }
 
-const BUBBLE_SLOTS = [
+const DEFAULT_BUBBLE_SLOTS = [
   { x: 22, y: 24, size: "medium" },
   { x: 43, y: 20, size: "medium" },
   { x: 72, y: 26, size: "medium" },
@@ -358,7 +386,8 @@ const BUBBLE_SLOTS = [
 ];
 
 function getBubbleSlot(index) {
-  return BUBBLE_SLOTS[index] || {
+  const slots = CONFIG.SCENE?.bubbleSlots || DEFAULT_BUBBLE_SLOTS;
+  return slots[index] || {
     x: 20 + (index % 3) * 22,
     y: 26 + Math.floor(index / 3) * 18,
     size: index % 2 === 0 ? "medium" : "small"
@@ -390,7 +419,8 @@ function renderBubbles() {
   const approved = getApprovedMoments();
   els.bubbleLayer.innerHTML = "";
 
-  approved.slice(0, 6).forEach((moment, index) => {
+  const maxBubbles = CONFIG.SCENE?.maxBubbles || 6;
+  approved.slice(0, maxBubbles).forEach((moment, index) => {
     const slot = getBubbleSlot(index);
     const bubble = document.createElement("button");
     bubble.className = `moment-bubble ${moment.type} ${slot.size}`;
@@ -699,22 +729,26 @@ function moveCharactersForMoment(moment) {
     boy: [{ x: 35, y: 72 }, { x: 67, y: 61 }]
   };
   const [girl, boy] = positions[moment.target] || positions.both;
-  setCharacterPosition(els.girlCharacter, girl.x, girl.y);
-  setCharacterPosition(els.boyCharacter, boy.x, boy.y);
-  triggerCharacterAction(moment.target);
+  setCharacterPosition(els.girlCharacter, girl.x, girl.y, "girl");
+  setCharacterPosition(els.boyCharacter, boy.x, boy.y, "boy");
+  window.setTimeout(() => triggerCharacterAction(moment.target), 900);
 }
 
 function moveCharactersRandomly() {
-  setCharacterPosition(els.girlCharacter, randomBetween(32, 44), randomBetween(64, 73));
-  setCharacterPosition(els.boyCharacter, randomBetween(58, 70), randomBetween(61, 71));
-  triggerCharacterAction("both");
+  setCharacterPosition(els.girlCharacter, randomBetween(32, 44), randomBetween(64, 73), "girl");
+  setCharacterPosition(els.boyCharacter, randomBetween(58, 70), randomBetween(61, 71), "boy");
+  window.setTimeout(() => triggerCharacterAction("both"), 900);
 }
 
-function setCharacterPosition(el, x, y) {
+function setCharacterPosition(el, x, y, character) {
   el.classList.add("walking");
+  updateCharacterSprite(character, "walk");
   el.style.setProperty("--x", `${x}%`);
   el.style.setProperty("--y", `${y}%`);
-  window.setTimeout(() => el.classList.remove("walking"), 1350);
+  window.setTimeout(() => {
+    el.classList.remove("walking");
+    updateCharacterSprite(character, "idle");
+  }, 1350);
 }
 
 function triggerCharacterAction(target) {
@@ -722,16 +756,24 @@ function triggerCharacterAction(target) {
   if (target === "girl") {
     els.girlCharacter.classList.add("focus", "happy");
     els.boyCharacter.classList.add("shy");
+    updateCharacterSprite("girl", "happy");
+    updateCharacterSprite("boy", "shy");
   } else if (target === "boy") {
     els.boyCharacter.classList.add("focus", "happy");
     els.girlCharacter.classList.add("shy");
+    updateCharacterSprite("girl", "shy");
+    updateCharacterSprite("boy", "happy");
   } else {
     els.girlCharacter.classList.add("happy");
     els.boyCharacter.classList.add("happy");
+    updateCharacterSprite("girl", "happy");
+    updateCharacterSprite("boy", "happy");
   }
   window.setTimeout(() => {
     [els.girlCharacter, els.boyCharacter].forEach((el) => el.classList.remove("focus", "shy", "happy"));
-  }, 2200);
+    updateCharacterSprite("girl", "idle");
+    updateCharacterSprite("boy", "idle");
+  }, 2400);
 }
 
 function sprinkleHearts(count = 8) {

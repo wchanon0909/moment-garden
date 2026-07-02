@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8ee"/>
+      <stop offset="0.55" stop-color="#fee8dc"/>
+      <stop offset="1" stop-color="#f5d5dd"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f1d7c7"/>
+      <stop offset="1" stop-color="#d5a283"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe7ff"/>
+      <stop offset="0.56" stop-color="#effaff"/>
+      <stop offset="0.57" stop-color="#a5d998"/>
+      <stop offset="1" stop-color="#6fbf82"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#6c4436" flood-opacity="0.18"/>
+    </filter>
+    <filter id="lightGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#wall)"/>
+  <rect x="0" y="585" width="1920" height="495" fill="url(#floor)"/>
+  <path d="M0 585 C380 625 570 560 850 590 C1180 625 1410 570 1920 595 L1920 1080 L0 1080 Z" fill="#e9c5b2" opacity="0.65"/>
+  <ellipse cx="975" cy="700" rx="365" ry="95" fill="#ffdce5" opacity="0.38"/>
+
+  <!-- window -->
+  <g filter="url(#softShadow)">
+    <rect x="78" y="94" width="450" height="300" rx="36" fill="#7aa27e" opacity="0.75"/>
+    <rect x="92" y="110" width="422" height="270" rx="28" fill="url(#sky)"/>
+    <line x1="232" y1="110" x2="232" y2="380" stroke="#8a7a72" stroke-opacity="0.48" stroke-width="7"/>
+    <line x1="374" y1="110" x2="374" y2="380" stroke="#8a7a72" stroke-opacity="0.48" stroke-width="7"/>
+    <circle cx="145" cy="162" r="28" fill="#fff" opacity="0.8"/>
+    <circle cx="183" cy="157" r="22" fill="#fff" opacity="0.7"/>
+  </g>
+
+  <!-- shelves and wall decorations -->
+  <g opacity="0.92" filter="url(#softShadow)">
+    <rect x="640" y="128" width="260" height="96" rx="24" fill="#d5b098" opacity="0.52"/>
+    <rect x="930" y="142" width="210" height="90" rx="24" fill="#dfbda6" opacity="0.52"/>
+    <rect x="1230" y="128" width="350" height="104" rx="24" fill="#d1a98f" opacity="0.44"/>
+    <rect x="1030" y="188" width="96" height="58" rx="18" fill="#fffdf7" stroke="#d8a88d" stroke-width="6"/>
+    <rect x="1265" y="180" width="110" height="70" rx="18" fill="#fffdf7" stroke="#d8a88d" stroke-width="6"/>
+  </g>
+  <g font-family="Arial" font-size="42">
+    <text x="668" y="190">📚</text><text x="735" y="190">🪴</text><text x="805" y="190">🧸</text>
+    <text x="1252" y="198">☕</text><text x="1328" y="198">📌</text><text x="1405" y="198">🧁</text>
+  </g>
+
+  <!-- string lights -->
+  <g stroke="#8f6254" stroke-width="3" stroke-opacity="0.26" fill="none">
+    <path d="M620 110 C770 85 920 92 1080 112"/>
+    <path d="M1120 116 C1320 86 1510 98 1710 126"/>
+  </g>
+  <g filter="url(#lightGlow)">
+    <circle cx="680" cy="110" r="8" fill="#ffd268"/><circle cx="810" cy="96" r="8" fill="#ffd268"/>
+    <circle cx="945" cy="96" r="8" fill="#ffd268"/><circle cx="1060" cy="112" r="8" fill="#ffd268"/>
+    <circle cx="1190" cy="112" r="8" fill="#ffd268"/><circle cx="1325" cy="96" r="8" fill="#ffd268"/>
+    <circle cx="1475" cy="104" r="8" fill="#ffd268"/><circle cx="1640" cy="124" r="8" fill="#ffd268"/>
+  </g>
+
+  <!-- furniture -->
+  <g filter="url(#softShadow)">
+    <rect x="100" y="760" width="580" height="134" rx="35" fill="#c68d6a" opacity="0.85"/>
+    <rect x="1220" y="760" width="565" height="134" rx="35" fill="#c68d6a" opacity="0.85"/>
+    <rect x="105" y="405" width="212" height="115" rx="34" fill="#ffa8bc" opacity="0.55"/>
+    <rect x="1580" y="420" width="190" height="132" rx="36" fill="#fff4e8" opacity="0.62"/>
+    <ellipse cx="1500" cy="500" rx="58" ry="38" fill="#ac8dd0" opacity="0.65"/>
+    <ellipse cx="1500" cy="482" rx="45" ry="35" fill="#715044" opacity="0.9"/>
+  </g>
+  <g font-size="54" font-family="Arial">
+    <text x="325" y="845">💻</text><text x="415" y="845">📒</text><text x="508" y="845">🌷</text>
+    <text x="1500" y="845">🖥️</text><text x="1602" y="845">🪴</text>
+  </g>
+
+  <!-- central route -->
+  <path d="M580 655 C750 735 940 680 1080 690 C1210 700 1275 665 1400 680" fill="none" stroke="#8fb5e5" stroke-width="7" stroke-linecap="round" stroke-dasharray="18 20" opacity="0.62"/>
+
+  <!-- decorative sparkles -->
+  <g opacity="0.75" font-family="Arial" font-size="34">
+    <text x="620" y="565">💕</text><text x="680" y="555">💗</text><text x="1510" y="292">✨</text>
+    <text x="1490" y="330">💕</text><text x="470" y="660">✨</text><text x="1550" y="665">🌷</text>
+  </g>
+</svg>

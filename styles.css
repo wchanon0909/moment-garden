@@ -1343,6 +1343,68 @@ select,
   line-height: 1.65;
 }
 
+
+
+/* v0.2 asset-ready scene layer */
+.story-scene.asset-mode {
+  background-image: var(--scene-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.story-scene.asset-mode .sky-glow,
+.story-scene.asset-mode .window-view,
+.story-scene.asset-mode .string-light,
+.story-scene.asset-mode .shelf,
+.story-scene.asset-mode .sofa,
+.story-scene.asset-mode .coffee-bar,
+.story-scene.asset-mode .desk,
+.story-scene.asset-mode .wall-frame,
+.story-scene.asset-mode .mini-cabinet,
+.story-scene.asset-mode .mini-rug,
+.story-scene.asset-mode .plant,
+.story-scene.asset-mode .floor-path {
+  display: none;
+}
+
+.character-sprite {
+  display: none;
+  position: relative;
+  z-index: 2;
+  width: 104px;
+  height: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 15px rgba(65, 45, 35, 0.18));
+  pointer-events: none;
+}
+
+.story-scene.asset-mode .character {
+  width: 120px;
+  height: 148px;
+}
+
+.story-scene.asset-mode .character-sprite {
+  display: block;
+}
+
+.story-scene.asset-mode .emoji-face,
+.story-scene.asset-mode .character::after,
+.story-scene.asset-mode .character-feet {
+  display: none;
+}
+
+.story-scene.asset-mode .name-tag {
+  top: -14px;
+  z-index: 4;
+}
+
+.story-scene.asset-mode .shadow {
+  bottom: 4px;
+  width: 78px;
+  height: 16px;
+}
+
 @keyframes floatMascot {
   0%, 100% { transform: translateY(0) rotate(-3deg); }
   50% { transform: translateY(-8px) rotate(4deg); }
